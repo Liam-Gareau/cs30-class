@@ -1,6 +1,6 @@
 // Interactive Scene Project
 // Liam Gareau
-// Date
+// Oct 3 2025
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -14,15 +14,12 @@ let r = 50/2;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  x = width;
-  y = height;
 }
 
 function draw() {
   //background(220);
   textSize(12);
   drawCircle();
-  countPoints();
 }
 
 function drawCircle(){
@@ -40,12 +37,13 @@ function drawCircle(){
   }
 }
 
-function countPoints(){
-  if (mouseX < x + r && mouseX > x - r && mouseY < y + r && mouseY > y - r && mouseIsPressed){
-    points++;
-  }
-}
 function randomXandY(){
   x = random(width);
   y = random(height);
+}
+
+function mouseClicked() {
+  if (mouseX < x + r && mouseX > x - r && mouseY < y + r && mouseY > y - r){
+    points++;
+  }
 }
