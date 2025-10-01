@@ -5,11 +5,12 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let timer = 50;
+let timer = 0;
 let points = 0;
 let x;
 let y;
 let r = 50/2;
+let c = 0;
 
 
 function setup() {
@@ -20,6 +21,7 @@ function draw() {
   //background(220);
   textSize(12);
   drawCircle();
+  changeColor();
 }
 
 function drawCircle(){
@@ -27,6 +29,7 @@ function drawCircle(){
     if (frameCount % 60 === 0){
       clear();
       randomXandY();
+      fill(c);
       circle(x,y,50);
       timer++;
     }
@@ -45,5 +48,14 @@ function randomXandY(){
 function mouseClicked() {
   if (mouseX < x + r && mouseX > x - r && mouseY < y + r && mouseY > y - r){
     points++;
+  }
+}
+
+function changeColor(){
+  if (mouseWheel() > 0){
+    c++;
+  }
+  else if (mouseWheel() < 0){
+    c--;
   }
 }
