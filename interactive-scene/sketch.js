@@ -9,8 +9,12 @@ let timer = 0;
 let points = 0;
 let x;
 let y;
-let r = 50/2;
+let radius = 50/2;
 let c = 0;
+let direction = " ";
+let r = 0;
+let g = 0;
+let b = 0;
 
 
 function setup() {
@@ -29,7 +33,7 @@ function drawCircle(){
     if (frameCount % 60 === 0){
       clear();
       randomXandY();
-      fill(c);
+      fill(r,g,b);
       circle(x,y,50);
       timer++;
     }
@@ -46,16 +50,29 @@ function randomXandY(){
 }
 
 function mouseClicked() {
-  if (mouseX < x + r && mouseX > x - r && mouseY < y + r && mouseY > y - r){
+  if (mouseX < x + radius && mouseX > x - radius && mouseY < y + radius && mouseY > y - radius){
     points++;
   }
 }
 
-function changeColor(){
-  if (mouseWheel() > 0){
-    c++;
+function mouseWheel(event){
+  if (event.delta > 0) {
+    direction = '▲';
+  } 
+  else {
+    direction = '▼';
   }
-  else if (mouseWheel() < 0){
-    c--;
+}
+
+function changeColor(){
+  if (direction === "▲"){
+    r += 10;
+    g += 20;
+    b += 30;
+  }
+  else if (direction === "▼"){
+    r -= 30;
+    g -= 10;
+    b -= 20;
   }
 }
