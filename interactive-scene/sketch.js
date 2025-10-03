@@ -24,7 +24,7 @@ function setup(){
 function draw(){
   textSize(12);
   drawCircle();
-  //changeColor();
+  keyPressed();
 }
 
 //Main function that spawns in the circles and counts the time of the game so that it stops after 60 seconds
@@ -85,5 +85,14 @@ function changeColor(){
   }
   else if (direction === "middle"){
     colorIndex = colorIndex;
+  }
+}
+
+function keyPressed(){
+  if (key === 32){
+    noStroke();
+  }
+  else if (key === 83){
+    Stroke("black");
   }
 }
