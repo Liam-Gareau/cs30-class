@@ -10,11 +10,9 @@ let points = 0;
 let x;
 let y;
 let radius = 50/2;
-let c = 0;
 let direction = " ";
-let r = 0;
-let g = 0;
-let b = 0;
+let colors = ["red","orange","yellow","green","blue","purple"];
+let colorIndex = 0;
 
 
 function setup() {
@@ -29,18 +27,19 @@ function draw() {
 }
 
 function drawCircle(){
-  if (timer <= 60){
+  for (let t = timer; t <= 60; t++){
     if (frameCount % 60 === 0){
       clear();
       randomXandY();
-      fill(r,g,b);
+      fill(colors[colorIndex]);
       circle(x,y,50);
       timer++;
     }
+    return;
   }
-  else{
+  if (timer > 60) {
     clear();
-    text(points,width/2,height/2);
+    text(points, width / 2, height / 2);
   }
 }
 
@@ -66,13 +65,9 @@ function mouseWheel(event){
 
 function changeColor(){
   if (direction === "▲"){
-    r += 10;
-    g += 20;
-    b += 30;
+    colorIndex = (colorIndex + 1) % colors.length;
   }
   else if (direction === "▼"){
-    r -= 30;
-    g -= 10;
-    b -= 20;
+    colorIndex = (colorIndex - 1 + colors.length) % colors.length;
   }
 }
