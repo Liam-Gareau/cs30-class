@@ -14,6 +14,7 @@ let radius = 50/2;
 let direction = " ";
 let colors = ["red","orange","yellow","green","blue","purple"];
 let colorIndex = 0;
+let drawStroke = true;
 
 //Setup step
 function setup(){
@@ -24,6 +25,7 @@ function setup(){
 function draw(){
   textSize(12);
   drawCircle();
+  makeStroke();
   keyPressed();
 }
 
@@ -88,11 +90,18 @@ function changeColor(){
   }
 }
 
-function keyPressed(){
-  if (key === 32){
+//Makes the stroke black or have no stroke depending on if drawStroke the boolean is true or false
+function makeStroke(){
+  if (drawStroke){
+    stroke("black");
+  }
+  else{
     noStroke();
   }
-  else if (key === 83){
-    Stroke("black");
-  }
+}
+
+//Makes the boolean drawStroke true or false when S key is pressed
+function keyPressed(){
+  if (keyCode === 83)
+    drawStroke = !drawStroke;
 }
