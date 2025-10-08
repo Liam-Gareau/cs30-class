@@ -102,6 +102,7 @@ function makeStroke(){
 
 //Makes the boolean drawStroke true or false when S key is pressed
 function keyPressed(){
-  if (keyCode === 83)
+  if (keyCode === 83){
     drawStroke = !drawStroke;
+  }
 }
