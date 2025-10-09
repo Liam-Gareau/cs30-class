@@ -1,7 +1,9 @@
 # CS 30 Work
 
 ## Demos
-- i'll put demos here later
+- [Traffic Lights](traffic-lights)
+- [Bouncing Balls](bouncing-balls)
+- [Generative Art](generative-art)
 
 ## Assignments
 - [Interactive Scene](interactive-scene)
