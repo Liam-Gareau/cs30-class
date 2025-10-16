@@ -8,11 +8,15 @@
 
 let theObjectArray = [];
 let theObjectButtonArray = [];
-let radius = 15
+let radius = 15;
+
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
   spawnObject();
+  let carbonButton = createButton("Carbon");
+  carbonButton.position(width/8, height/5);
+  carbonButton.mousePressed(objectButton);
 }
 
 function draw(){
@@ -38,10 +42,4 @@ function spawnObject(){
 function objectButton(){
   fill("black");
   circle(width/8, height/5, radius);
-}
-
-function mousePressed(){
-  if (mouseX < width/8 + radius && mouseX > width/8 - radius && mouseY < height/5 + radius && mouseY > height/5 - radius){
-
-  }
 }
