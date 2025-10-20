@@ -9,11 +9,16 @@
 let theObjectArray = [];
 let theObjectButtonArray = [];
 let button = false;
+//  let radius = 15;
 
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
   spawnCarbon();
+
+  let carbonButton = createButton("Carbon");
+  carbonButton.position(width/8, height/5);
+  carbonButton.mousePressed(createCarbon);
 }
 
 function draw(){
@@ -22,12 +27,10 @@ function draw(){
   noStroke();
   rect(0,0,width/4,height);
 
-  let carbonButton = createButton("Carbon");
-  carbonButton.position(width/8, height/5);
-  carbonButton.mousePressed(createCarbon);
+  moveObjects();
 }
 
-function spawnCarbon(x,y){
+function spawnCarbon(){
   let carbon = {
     x: width/2,
     y: height/2,
@@ -47,3 +50,19 @@ function createCarbon(){
   }
 }
 
+function mousePressed() {
+  for (let object of theObjectArray){
+    if (mouseX > object.x - object.radius && mouseX < object.x + object.radius && mouseY > object.y - object.radius && mouseY < object.y + object.radius) {
+      button = !button;
+    }
+  }
+}
+
+function moveObjects(){
+  for (let object of theObjectArray){
+    if (button){
+      object.x = mouseX - object.radius;
+      object.y = mouseY - object.radius;
+    }
+  }
+}
