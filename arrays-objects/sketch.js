@@ -7,7 +7,6 @@
 // 
 
 let theObjectArray = [];
-let theObjectButtonArray = [];
 let button = false;
 //  let radius = 15;
 
@@ -22,12 +21,14 @@ function setup(){
 }
 
 function draw(){
-  //background(255);
+  background(255);
   fill(200,200,200);
   noStroke();
   rect(0,0,width/4,height);
 
   moveObjects();
+
+
 }
 
 function spawnCarbon(){
@@ -35,6 +36,7 @@ function spawnCarbon(){
     x: width/2,
     y: height/2,
     radius: 15,
+    button: false,
     r: 0,
     g: 0,
     b: 0,
@@ -44,6 +46,7 @@ function spawnCarbon(){
 
 
 function createCarbon(){
+  spawnCarbon();
   for (let object of theObjectArray) {
     fill(object.r, object.g, object.b);
     circle(object.x, object.y, object.radius);
@@ -53,16 +56,18 @@ function createCarbon(){
 function mousePressed() {
   for (let object of theObjectArray){
     if (mouseX > object.x - object.radius && mouseX < object.x + object.radius && mouseY > object.y - object.radius && mouseY < object.y + object.radius) {
-      button = !button;
+      object.button = !object.button;
     }
   }
 }
 
 function moveObjects(){
   for (let object of theObjectArray){
-    if (button){
-      object.x = mouseX - object.radius;
-      object.y = mouseY - object.radius;
+    if (object.button){
+      object.x = mouseX;
+      object.y = mouseY;
+      //createCarbon();
     }
   }
+  createCarbon();
 }
