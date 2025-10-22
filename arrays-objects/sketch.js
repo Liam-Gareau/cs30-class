@@ -6,18 +6,14 @@
 // Extra for Experts:
 // 
 
-let theObjectArray = [];
+let theCarbonArray = [];
+let theBondArray = [];
 let button = false;
-//  let radius = 15;
-
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
   spawnCarbon();
-
-  let carbonButton = createButton("Carbon");
-  carbonButton.position(width/8, height/5);
-  carbonButton.mousePressed(createCarbon);
+  spawnBond();
 }
 
 function draw(){
@@ -25,49 +21,88 @@ function draw(){
   fill(200,200,200);
   noStroke();
   rect(0,0,width/4,height);
+  
+  moveCarbon();
+  moveBond();
+}
 
-  moveObjects();
+function mousePressed() {
+  for (let object of theCarbonArray){
+    if (mouseX > object.x - object.radius && mouseX < object.x + object.radius && mouseY > object.y - object.radius && mouseY < object.y + object.radius) {
+      object.button = !object.button;
+    }
+  }
+  for (let object of theBondArray){
+    if (mouseX > object.x1 && mouseX < object.x2 && mouseY > object.y1 && mouseY < object.y2) {
+      object.button = !object.button;
+    }
+  }
+}
 
+function moveCarbon(){
+  for (let object of theCarbonArray){
+    if (object.button){
+      object.x = mouseX;
+      object.y = mouseY;
+    }
+  }
+  createCarbon();
+}
 
+function moveBond(){
+  for (let object of theBondArray){
+    if (object.button){
+      object.x1 = mouseX;
+      object.y1 = mouseY;
+      object.x2 = mouseX;
+      object.y2 = mouseY;
+    }
+  }
+  createBond();
 }
 
 function spawnCarbon(){
   let carbon = {
-    x: width/2,
-    y: height/2,
+    x: width/8,
+    y: height/5,
     radius: 15,
     button: false,
     r: 0,
     g: 0,
     b: 0,
   };
-  theObjectArray.push(carbon);
+  theCarbonArray.push(carbon);
 }
 
 
 function createCarbon(){
   spawnCarbon();
-  for (let object of theObjectArray) {
+  for (let object of theCarbonArray) {
     fill(object.r, object.g, object.b);
     circle(object.x, object.y, object.radius);
   }
 }
 
-function mousePressed() {
-  for (let object of theObjectArray){
-    if (mouseX > object.x - object.radius && mouseX < object.x + object.radius && mouseY > object.y - object.radius && mouseY < object.y + object.radius) {
-      object.button = !object.button;
-    }
-  }
+
+function spawnBond(){
+  let bond = {
+    x1: width/8,
+    y1: height/2,
+    x2: width/8 + 10,
+    y2: height/2,
+    button: false,
+    r: 255,
+    g: 0,
+    b: 255,
+  };
+  theBondArray.push(bond);
 }
 
-function moveObjects(){
-  for (let object of theObjectArray){
-    if (object.button){
-      object.x = mouseX;
-      object.y = mouseY;
-      //createCarbon();
-    }
+function createBond(){
+  spawnBond();
+  for (let object of theBondArray) {
+    strokeWeight(10);
+    stroke(object.r, object.g, object.b);
+    line(object.x1, object.y1, object.x2, object.y2);
   }
-  createCarbon();
 }
