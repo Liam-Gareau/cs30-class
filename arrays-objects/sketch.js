@@ -33,7 +33,8 @@ function mousePressed() {
     }
   }
   for (let object of theBondArray){
-    if (mouseX > object.x1 && mouseX < object.x2 && mouseY > object.y1 && mouseY < object.y2) {
+    console.log(theBondArray, mouseX, mouseY, object);
+    if (mouseX > object.x1 && mouseX < object.x1 + 10 && mouseY > object.y1 && mouseY < object.y1 + 5) {
       object.button = !object.button;
     }
   }
@@ -54,8 +55,8 @@ function moveBond(){
     if (object.button){
       object.x1 = mouseX;
       object.y1 = mouseY;
-      object.x2 = mouseX;
-      object.y2 = mouseY;
+      // object.x2 = mouseX;
+      // object.y2 = mouseY;
     }
   }
   createBond();
@@ -76,7 +77,11 @@ function spawnCarbon(){
 
 
 function createCarbon(){
-  spawnCarbon();
+  //added this so that it spawns less so that your game doesn't start to lag eventually
+  if (frameCount%10 === 0){
+    spawnCarbon();
+  }
+  //spawns the carbon on screen
   for (let object of theCarbonArray) {
     fill(object.r, object.g, object.b);
     circle(object.x, object.y, object.radius);
@@ -88,8 +93,8 @@ function spawnBond(){
   let bond = {
     x1: width/8,
     y1: height/2,
-    x2: width/8 + 10,
-    y2: height/2,
+    x2: 10,
+    y2: 1,
     button: false,
     r: 255,
     g: 0,
@@ -99,10 +104,12 @@ function spawnBond(){
 }
 
 function createBond(){
-  spawnBond();
+  if (frameCount%10 === 0){
+    spawnBond();
+  }
   for (let object of theBondArray) {
     strokeWeight(10);
     stroke(object.r, object.g, object.b);
-    line(object.x1, object.y1, object.x2, object.y2);
+    rect(object.x1, object.y1, object.x2, object.y2);
   }
 }
