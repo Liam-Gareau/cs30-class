@@ -33,8 +33,11 @@ function mousePressed() {
     }
   }
   for (let object of theBondArray){
-    console.log(theBondArray, mouseX, mouseY, object);
-    if (mouseX > object.x1 && mouseX < object.x1 + 10 && mouseY > object.y1 && mouseY < object.y1 + 5) {
+    console.log(mouseX > object.x1 && mouseX < object.x1 + object.w);
+    console.log(mouseX > object.x1 && mouseX < object.x1 + object.w && mouseY > object.y1 && mouseY < object.y1 + object.h);
+
+
+    if (mouseX > object.x1 && mouseX < object.x1 + object.w && mouseY > object.y1 && mouseY < object.y1 + object.h) {
       object.button = !object.button;
     }
   }
@@ -53,10 +56,8 @@ function moveCarbon(){
 function moveBond(){
   for (let object of theBondArray){
     if (object.button){
-      object.x1 = mouseX;
-      object.y1 = mouseY;
-      // object.x2 = mouseX;
-      // object.y2 = mouseY;
+      object.x1 = mouseX - object.w/2;
+      object.y1 = mouseY - object.h/2;
     }
   }
   createBond();
@@ -93,8 +94,8 @@ function spawnBond(){
   let bond = {
     x1: width/8,
     y1: height/2,
-    x2: 10,
-    y2: 1,
+    w: 20,
+    h: 10,
     button: false,
     r: 255,
     g: 0,
@@ -108,8 +109,7 @@ function createBond(){
     spawnBond();
   }
   for (let object of theBondArray) {
-    strokeWeight(10);
-    stroke(object.r, object.g, object.b);
-    rect(object.x1, object.y1, object.x2, object.y2);
+    fill(object.r, object.g, object.b);
+    rect(object.x1, object.y1, object.w, object.h);
   }
 }
