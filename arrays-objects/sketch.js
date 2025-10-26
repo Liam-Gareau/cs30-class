@@ -33,11 +33,11 @@ function mousePressed() {
     }
   }
   for (let object of theBondArray){
-    console.log(mouseX > object.x1 && mouseX < object.x1 + object.w);
-    console.log(mouseX > object.x1 && mouseX < object.x1 + object.w && mouseY > object.y1 && mouseY < object.y1 + object.h);
+    console.log(mouseX > object.x && mouseX < object.x + object.w);
+    console.log(mouseX > object.x && mouseX < object.x + object.w && mouseY > object.y && mouseY < object.y + object.h);
 
 
-    if (mouseX > object.x1 && mouseX < object.x1 + object.w && mouseY > object.y1 && mouseY < object.y1 + object.h) {
+    if (mouseX > object.x && mouseX < object.x + object.w && mouseY > object.y && mouseY < object.y + object.h) {
       object.button = !object.button;
     }
   }
@@ -56,8 +56,8 @@ function moveCarbon(){
 function moveBond(){
   for (let object of theBondArray){
     if (object.button){
-      object.x1 = mouseX - object.w/2;
-      object.y1 = mouseY - object.h/2;
+      object.x = mouseX - object.w/2;
+      object.y = mouseY - object.h/2;
     }
   }
   createBond();
@@ -69,6 +69,7 @@ function spawnCarbon(){
     y: height/5,
     radius: 15,
     button: false,
+    bonds: [],
     r: 0,
     g: 0,
     b: 0,
@@ -92,11 +93,12 @@ function createCarbon(){
 
 function spawnBond(){
   let bond = {
-    x1: width/8,
-    y1: height/2,
+    x: width/8,
+    y: height/2,
     w: 20,
     h: 10,
     button: false,
+    bonds: [],
     r: 255,
     g: 0,
     b: 255,
@@ -110,6 +112,31 @@ function createBond(){
   }
   for (let object of theBondArray) {
     fill(object.r, object.g, object.b);
-    rect(object.x1, object.y1, object.w, object.h);
+    rect(object.x, object.y, object.w, object.h);
+  }
+}
+
+
+function bondCarbon () {
+  for (let carbon of theCarbonArray){
+    for (let bond of theBondArray){
+      if (dist(carbon.x, carbon.y, bond.x, bond.y) < carbon.radius){
+        carbon.bonds.push(bond)
+      }
+      if (dist(carbon.x, carbon.y) < bond.w){
+        bond.bonds.push(carbon)
+      }
+    }
+  }
+}
+
+function moveHydroCarbon(){
+  for (let carbon of theCarbonArray){
+    for (let object of carbon.bonds){
+      if (carbon.x === mouseX){
+        object.x = carbon.x + carbon.radius/2
+        object.y = carbon.y - object.h/2
+      }
+    }
   }
 }
