@@ -1,9 +1,10 @@
 // Arrays and Objects
 // Liam Gareau
-// 
-// make game that you can make different hydro carbon molecules and then name them
 //
-// Extra for Experts:
+// Comment: I couldn't quite figure out how to get the carbons to bond together and form chains in the time given, I have ideas for how to do so such as checking to see if its already bonded to something or not which i had already started in the main code.
+// Although I didn't get everything I wanted to done, I think my understanding for arrays and objects has improved drastically whilst fiddling with ym project and attempting to get it finished.
+//
+// Extra for Experts: Having multiple objects that interact with eachother
 // 
 
 let theCarbonArray = [];
@@ -18,25 +19,26 @@ function setup(){
 
 function draw(){
   background(255);
+  // creates the gray rectangle as a sort of inventory spawner
   fill(200,200,200);
   noStroke();
   rect(0,0,width/4,height);
   
   moveCarbon();
   moveBond();
+  bondCarbon();
+  moveHydroCarbon();
 }
 
 function mousePressed() {
+  // Checks if the mouse is over a carbon
   for (let object of theCarbonArray){
     if (mouseX > object.x - object.radius && mouseX < object.x + object.radius && mouseY > object.y - object.radius && mouseY < object.y + object.radius) {
       object.button = !object.button;
     }
   }
+  // checks if mouse is over a bond
   for (let object of theBondArray){
-    console.log(mouseX > object.x && mouseX < object.x + object.w);
-    console.log(mouseX > object.x && mouseX < object.x + object.w && mouseY > object.y && mouseY < object.y + object.h);
-
-
     if (mouseX > object.x && mouseX < object.x + object.w && mouseY > object.y && mouseY < object.y + object.h) {
       object.button = !object.button;
     }
@@ -46,43 +48,50 @@ function mousePressed() {
 function moveCarbon(){
   for (let object of theCarbonArray){
     if (object.button){
+      // Check if the carbon was actually moved away from its original position
+      if (!object.spawnedNext && (dist(mouseX, mouseY, object.x, object.y) > 5)) {
+        spawnCarbon();
+        object.spawnedNext = true;
+      }
+
+      // Move the carbon with the mouse
       object.x = mouseX;
       object.y = mouseY;
     }
   }
-  createCarbon();
+
+  // Draw all carbons
+  for (let object of theCarbonArray) {
+    fill(object.r, object.g, object.b);
+    circle(object.x, object.y, object.radius);
+  }
 }
 
 function moveBond(){
   for (let object of theBondArray){
     if (object.button){
+      // Spawn a new bond only when first moved
+      if (!object.spawnedNext && (dist(mouseX, mouseY, object.x, object.y) > 5)) {
+        spawnBond();
+        object.spawnedNext = true;
+      }
+
+      // Move with mouse
       object.x = mouseX - object.w/2;
       object.y = mouseY - object.h/2;
     }
   }
-  createBond();
+
+  // Draw all bonds
+  for (let object of theBondArray) {
+    fill(object.r, object.g, object.b);
+    rect(object.x, object.y, object.w, object.h);
+  }
 }
 
-function spawnCarbon(){
-  let carbon = {
-    x: width/8,
-    y: height/5,
-    radius: 15,
-    button: false,
-    bonds: [],
-    r: 0,
-    g: 0,
-    b: 0,
-  };
-  theCarbonArray.push(carbon);
-}
 
 
 function createCarbon(){
-  //added this so that it spawns less so that your game doesn't start to lag eventually
-  if (frameCount%10 === 0){
-    spawnCarbon();
-  }
   //spawns the carbon on screen
   for (let object of theCarbonArray) {
     fill(object.r, object.g, object.b);
@@ -91,14 +100,34 @@ function createCarbon(){
 }
 
 
+function spawnCarbon(){
+  //general map for carbons
+  let carbon = {
+    x: width/8,
+    y: height/5,
+    radius: 15,
+    button: false,
+    bondA: [],
+    bondB: [],
+    spawnedNext: false,
+    r: 0,
+    g: 0,
+    b: 0,
+  };
+  theCarbonArray.push(carbon);
+}
+
 function spawnBond(){
+  // general map for bonds
   let bond = {
     x: width/8,
     y: height/2,
     w: 20,
     h: 10,
     button: false,
-    bonds: [],
+    carbonA: [],
+    carbonB: [],
+    spawnedNext: false,
     r: 255,
     g: 0,
     b: 255,
@@ -107,24 +136,35 @@ function spawnBond(){
 }
 
 function createBond(){
-  if (frameCount%10 === 0){
-    spawnBond();
-  }
+// draws the bonds
   for (let object of theBondArray) {
     fill(object.r, object.g, object.b);
     rect(object.x, object.y, object.w, object.h);
   }
 }
 
-
-function bondCarbon () {
+function bondCarbon(){
+  // sets the parameters so that you dont have multiple carbons going into the bondA array and vice versa
   for (let carbon of theCarbonArray){
     for (let bond of theBondArray){
       if (dist(carbon.x, carbon.y, bond.x, bond.y) < carbon.radius){
-        carbon.bonds.push(bond)
-      }
-      if (dist(carbon.x, carbon.y) < bond.w){
-        bond.bonds.push(carbon)
+
+        if (carbon.bondA.length < 1 && bond.carbonA.length < 1){
+          carbon.bondA.push(bond);
+          bond.carbonA.push(carbon);
+        }
+        else if (carbon.bondA.length < 1 && bond.carbonA.length === 1 && bond.carbonB.length < 1 && bond.carbonA != carbon){
+          carbon.bondA.push(bond);
+          bond.carbonB.push(carbon);
+        }
+        else if (carbon.bondB.length < 1 && carbon.bondA.length === 1 && bond.carbonA.length < 1 && carbon.bondA != bond){
+          carbon.bondB.push(bond);
+          bond.carbonA.push(carbon);
+        }
+        else if (carbon.bondB.length < 1 && carbon.bondA.length === 1 && bond.carbonA.length === 1 && bond.carbonB.length < 1 && bond.carbonB != bond){
+          carbon.bondB.push(bond);
+          bond.carbonB.push(carbon);
+        }
       }
     }
   }
@@ -132,10 +172,16 @@ function bondCarbon () {
 
 function moveHydroCarbon(){
   for (let carbon of theCarbonArray){
-    for (let object of carbon.bonds){
-      if (carbon.x === mouseX){
-        object.x = carbon.x + carbon.radius/2
-        object.y = carbon.y - object.h/2
+    for (let bondA of carbon.bondA){
+      //moves the carbon and bond if holding the carbon
+      if (carbon.button){
+        bondA.x = carbon.x + carbon.radius/2
+        bondA.y = carbon.y - bondA.h/2
+    }
+    //moves the carbon and bond if holding the bond
+      else if (bondA.button){
+        carbon.x = bondA.x - carbon.radius/2
+        carbon.y = bondA.y + bondA.h/2
       }
     }
   }
