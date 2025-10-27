@@ -49,7 +49,7 @@ function moveCarbon(){
   for (let object of theCarbonArray){
     if (object.button){
       // Check if the carbon was actually moved away from its original position
-      if (!object.spawnedNext && (dist(mouseX, mouseY, object.x, object.y) > 5)) {
+      if (!object.spawnedNext && dist(mouseX, mouseY, object.x, object.y) > 5) {
         spawnCarbon();
         object.spawnedNext = true;
       }
@@ -71,7 +71,7 @@ function moveBond(){
   for (let object of theBondArray){
     if (object.button){
       // Spawn a new bond only when first moved
-      if (!object.spawnedNext && (dist(mouseX, mouseY, object.x, object.y) > 5)) {
+      if (!object.spawnedNext && dist(mouseX, mouseY, object.x, object.y) > 5) {
         spawnBond();
         object.spawnedNext = true;
       }
@@ -153,15 +153,15 @@ function bondCarbon(){
           carbon.bondA.push(bond);
           bond.carbonA.push(carbon);
         }
-        else if (carbon.bondA.length < 1 && bond.carbonA.length === 1 && bond.carbonB.length < 1 && bond.carbonA != carbon){
+        else if (carbon.bondA.length < 1 && bond.carbonA.length === 1 && bond.carbonB.length < 1 && bond.carbonA !== carbon){
           carbon.bondA.push(bond);
           bond.carbonB.push(carbon);
         }
-        else if (carbon.bondB.length < 1 && carbon.bondA.length === 1 && bond.carbonA.length < 1 && carbon.bondA != bond){
+        else if (carbon.bondB.length < 1 && carbon.bondA.length === 1 && bond.carbonA.length < 1 && carbon.bondA !== bond){
           carbon.bondB.push(bond);
           bond.carbonA.push(carbon);
         }
-        else if (carbon.bondB.length < 1 && carbon.bondA.length === 1 && bond.carbonA.length === 1 && bond.carbonB.length < 1 && bond.carbonB != bond){
+        else if (carbon.bondB.length < 1 && carbon.bondA.length === 1 && bond.carbonA.length === 1 && bond.carbonB.length < 1 && bond.carbonB !== bond){
           carbon.bondB.push(bond);
           bond.carbonB.push(carbon);
         }
@@ -175,13 +175,13 @@ function moveHydroCarbon(){
     for (let bondA of carbon.bondA){
       //moves the carbon and bond if holding the carbon
       if (carbon.button){
-        bondA.x = carbon.x + carbon.radius/2
-        bondA.y = carbon.y - bondA.h/2
-    }
-    //moves the carbon and bond if holding the bond
+        bondA.x = carbon.x + carbon.radius/2;
+        bondA.y = carbon.y - bondA.h/2;
+      }
+      //moves the carbon and bond if holding the bond
       else if (bondA.button){
-        carbon.x = bondA.x - carbon.radius/2
-        carbon.y = bondA.y + bondA.h/2
+        carbon.x = bondA.x - carbon.radius/2;
+        carbon.y = bondA.y + bondA.h/2;
       }
     }
   }
