@@ -7,8 +7,9 @@
 - [Perlin Noise](perline-noise)
 - [Perlin Bubbles](perlin-bubbles)
 - [Terrain Generation](terrain)
-- [Grid Demo]{grid}
+- [Grid Demo](grid)
 - [Rectangle Neighbours Demo](neighbours)
+- [Game of Life](game-of-life)
 
 ## Assignments
 - [Interactive Scene](interactive-scene)
