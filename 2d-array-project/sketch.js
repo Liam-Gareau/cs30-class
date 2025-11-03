@@ -17,10 +17,10 @@ let thePlayer = {
   x: 0,
   y: 0,
 };
-let theEnemy = {
-  x: 25,
-  y: 25,
-};
+// let theEnemy = {
+//   x: 23,
+//   y: 16,
+// };
 
 
 function setup() {
@@ -28,6 +28,11 @@ function setup() {
   cols = Math.floor(width/CELL_SIZE);
   rows = Math.floor(height/CELL_SIZE);
   grid = generateRandomGrid(cols, rows);
+
+  let theEnemy = {
+    x: Math.floor(width/CELL_SIZE) - 1,
+    y: Math.floor(height/CELL_SIZE) - 1,
+  };
 
   //add player and enemy to grid
   grid[thePlayer.y][thePlayer.x] = PLAYER;
@@ -37,6 +42,13 @@ function setup() {
 function draw() {
   background("blue");
   displayGrid();
+}
+
+function spawnEnemy(){
+  let theEnemy = {
+    x: Math.floor(width/CELL_SIZE) - 1,
+    y: Math.floor(height/CELL_SIZE) - 1,
+  };
 }
 
 function mousePressed(){
@@ -97,9 +109,9 @@ function movePlayer(x,y){
   }
 }
 
-function moveEnemy(){
+// function moveEnemy(){
 
-}
+// }
 
 function generateRandomGrid(cols, rows){
   let newGrid = [];
