@@ -17,6 +17,11 @@ let thePlayer = {
   x: 0,
   y: 0,
 };
+let theEnemy = {
+  x: 25,
+  y: 25,
+};
+
 
 function setup() {
   createCanvas(windowWidth * 0.9, windowHeight* 0.9);
@@ -24,7 +29,7 @@ function setup() {
   rows = Math.floor(height/CELL_SIZE);
   grid = generateRandomGrid(cols, rows);
 
-  //add player to grid
+  //add player and enemy to grid
   grid[thePlayer.y][thePlayer.x] = PLAYER;
   grid[theEnemy.y][theEnemy.x] = ENEMY;
 }
@@ -40,13 +45,6 @@ function mousePressed(){
 
   //self
   toggleCell(x,y);
-}
-
-function theEnemy(){
-  let theEnemy = {
-    x: width,
-    y: height,
-  };
 }
 
 function toggleCell(x,y){
