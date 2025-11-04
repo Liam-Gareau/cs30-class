@@ -17,17 +17,12 @@ let thePlayer = {
   x: 0,
   y: 0,
 };
-// let theEnemy = {
-//   x: 23,
-//   y: 16,
-// };
-
 
 function setup() {
   createCanvas(windowWidth * 0.9, windowHeight* 0.9);
   cols = Math.floor(width/CELL_SIZE);
   rows = Math.floor(height/CELL_SIZE);
-  grid = generateRandomGrid(cols, rows);
+  grid = generateEmptyGrid(cols, rows);
 
   let theEnemy = {
     x: Math.floor(width/CELL_SIZE) - 1,
@@ -42,6 +37,13 @@ function setup() {
 function draw() {
   background("blue");
   displayGrid();
+
+  let theEnemy = {
+    x: Math.floor(width/CELL_SIZE) - 1,
+    y: Math.floor(height/CELL_SIZE) - 1,
+  };
+
+  moveEnemy(thePlayer.x, thePlayer.y, theEnemy.x, theEnemy.y);
 }
 
 function spawnEnemy(){
@@ -109,9 +111,43 @@ function movePlayer(x,y){
   }
 }
 
-// function moveEnemy(){
+function moveEnemy(x1,y1,x2,y2){
+  if (x1 > x2){
+    x2++;
+    replaceTiles(x2,y2);
+  }
+  else if (x1 < x2){
+    x2--;
+    replaceTiles(x2,y2);
+  }
+  else if (y1 > y2){
+    y2++;
+    replaceTiles(x2,y2);
+  }
+  else if (y1 < y2){
+    y2--;
+    replaceTiles(x2,y2);
+  }
 
-// }
+}
+
+function replaceTiles(x,y){
+  if (x >= 0 && x < cols && y >= 0 && y < rows && grid[y][x] === OPEN_TILE){
+    //previous position
+    let oldx = theEnemy.x;
+    let oldy = theEnemy.y;
+  
+    //moving the player location
+    theEnemy.x = x;
+    theEnemy.y = y;
+  
+    //put player on grid
+    grid[theEnemy.y][theEnemy.x] = PLAYER;
+  
+    //reset old spot to be open tile
+    grid[oldy][oldx] = OPEN_TILE;
+  }
+}
 
 function generateRandomGrid(cols, rows){
   let newGrid = [];
