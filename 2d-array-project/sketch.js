@@ -1,6 +1,6 @@
-// Project Title
-// Your Name
-// Date
+// 2d array assaignment
+// Liam Gareau
+// Nov 12 wed
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -13,9 +13,15 @@ const ENEMY = 6;
 let grid;
 let rows;
 let cols;
+let x;
+let y;
 let thePlayer = {
   x: 0,
   y: 0,
+};
+let theEnemy = {
+  x: 15,
+  y: 15,
 };
 
 function setup() {
@@ -23,11 +29,6 @@ function setup() {
   cols = Math.floor(width/CELL_SIZE);
   rows = Math.floor(height/CELL_SIZE);
   grid = generateEmptyGrid(cols, rows);
-
-  let theEnemy = {
-    x: Math.floor(width/CELL_SIZE) - 1,
-    y: Math.floor(height/CELL_SIZE) - 1,
-  };
 
   //add player and enemy to grid
   grid[thePlayer.y][thePlayer.x] = PLAYER;
@@ -38,19 +39,12 @@ function draw() {
   background("blue");
   displayGrid();
 
-  let theEnemy = {
-    x: Math.floor(width/CELL_SIZE) - 1,
-    y: Math.floor(height/CELL_SIZE) - 1,
-  };
+  // let theEnemy = {
+  //   x: Math.floor(width/CELL_SIZE) - 1,
+  //   y: Math.floor(height/CELL_SIZE) - 1,
+  // };
 
   moveEnemy(thePlayer.x, thePlayer.y, theEnemy.x, theEnemy.y);
-}
-
-function spawnEnemy(){
-  let theEnemy = {
-    x: Math.floor(width/CELL_SIZE) - 1,
-    y: Math.floor(height/CELL_SIZE) - 1,
-  };
 }
 
 function mousePressed(){
@@ -113,39 +107,36 @@ function movePlayer(x,y){
 
 function moveEnemy(x1,y1,x2,y2){
   if (x1 > x2){
-    x2++;
-    replaceTiles(x2,y2);
+    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
+      x2++;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
   }
   else if (x1 < x2){
-    x2--;
-    replaceTiles(x2,y2);
+    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
+      x2--;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
   }
   else if (y1 > y2){
-    y2++;
-    replaceTiles(x2,y2);
+    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
+      y2++;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
   }
   else if (y1 < y2){
-    y2--;
-    replaceTiles(x2,y2);
-  }
-
-}
-
-function replaceTiles(x,y){
-  if (x >= 0 && x < cols && y >= 0 && y < rows && grid[y][x] === OPEN_TILE){
-    //previous position
-    let oldx = theEnemy.x;
-    let oldy = theEnemy.y;
-  
-    //moving the player location
-    theEnemy.x = x;
-    theEnemy.y = y;
-  
-    //put player on grid
-    grid[theEnemy.y][theEnemy.x] = PLAYER;
-  
-    //reset old spot to be open tile
-    grid[oldy][oldx] = OPEN_TILE;
+    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
+      y2--;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
   }
 }
 
