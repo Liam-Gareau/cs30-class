@@ -23,6 +23,7 @@ let theEnemy = {
   x: 15,
   y: 15,
 };
+let end = false;
 
 function setup() {
   createCanvas(windowWidth * 0.9, windowHeight* 0.9);
@@ -67,22 +68,16 @@ function toggleCell(x,y){
 }
 
 function keyPressed() {
-  if (key === "r") {
-    grid = generateRandomGrid(cols, rows);
-  }
-  else if (key === "e") {
-    grid = generateEmptyGrid(cols,rows);
-  }
-  else if (key === "w"){
+  if (key === "w" && !end){
     movePlayer(thePlayer.x, thePlayer.y - 1);
   }
-  else if (key === "a") {
+  else if (key === "a" && !end) {
     movePlayer(thePlayer.x - 1, thePlayer.y);
   }
-  else if (key === "s") {
+  else if (key === "s" && !end) {
     movePlayer(thePlayer.x, thePlayer.y + 1);
   }
-  else if (key === "d") {
+  else if (key === "d" && !end) {
     movePlayer(thePlayer.x + 1, thePlayer.y);
   }
 }
@@ -106,55 +101,79 @@ function movePlayer(x,y){
 }
 
 function moveEnemy(x1,y1,x2,y2){
-  if (x1 > x2){
-    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
+  if (x1 > x2 && y1 > y2){
+    if (frameCount % 30 === 0){
       x2++;
-      grid[y2][x2] = ENEMY;
-      theEnemy.x = x2;
-      theEnemy.y = y2;
-    }
-  }
-  else if (x1 < x2){
-    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
-      x2--;
-      grid[y2][x2] = ENEMY;
-      theEnemy.x = x2;
-      theEnemy.y = y2;
-    }
-  }
-  else if (y1 > y2){
-    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
       y2++;
       grid[y2][x2] = ENEMY;
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (y1 < y2){
-    if (grid[y2][x2] === OPEN_TILE && frameCount % 30 === 0){
+  else if (x1 < x2 && y1 < y2){
+    if (frameCount % 30 === 0){
+      x2--;
       y2--;
       grid[y2][x2] = ENEMY;
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-}
-
-function generateRandomGrid(cols, rows){
-  let newGrid = [];
-  for (let y = 0; y < rows; y++){
-    newGrid.push([]);
-    for (let x = 0; x < cols; x++){
-      //pick 0 or 1 randomly
-      if (random(100) < 50){
-        newGrid[y].push(OPEN_TILE);
-      }
-      else {
-        newGrid[y].push(IMPASSABLE);
-      }
+  else if (y1 > y2 && x1 < x2){
+    if (frameCount % 30 === 0){
+      x2--;
+      y2++;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
     }
   }
-  return newGrid;
+  else if (y1 < y2 && x1 > x2){
+    if (frameCount % 30 === 0){
+      x2++;
+      y2--;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
+  }
+  else if (x1 < x2){
+    if (frameCount % 30 === 0){
+      x2--;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
+  }
+  else if (x1 > x2){
+    if (frameCount % 30 === 0){
+      x2++;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
+  }
+  else if (y1 < y2){
+    if (frameCount % 30 === 0){
+      y2--;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
+  }
+  else if (y1 > y2){
+    if (frameCount % 30 === 0){
+      y2++;
+      grid[y2][x2] = ENEMY;
+      theEnemy.x = x2;
+      theEnemy.y = y2;
+    }
+  }
+  else if (y1 === y2 && x1 === x2){
+    end = true;
+    clear();
+    text("Game Over", width/2, height/2);
+  }
 }
 
 function displayGrid(){
