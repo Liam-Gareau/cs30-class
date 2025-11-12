@@ -20,8 +20,8 @@ let thePlayer = {
   y: 0,
 };
 let theEnemy = {
-  x: 15,
-  y: 15,
+  x: x,
+  y: y,
 };
 let end = false;
 
@@ -31,6 +31,9 @@ function setup() {
   rows = Math.floor(height/CELL_SIZE);
   grid = generateEmptyGrid(cols, rows);
 
+  theEnemy.x = cols - 1;
+  theEnemy.y = rows - 1;
+
   //add player and enemy to grid
   grid[thePlayer.y][thePlayer.x] = PLAYER;
   grid[theEnemy.y][theEnemy.x] = ENEMY;
@@ -39,13 +42,21 @@ function setup() {
 function draw() {
   background("blue");
   displayGrid();
-
-  // let theEnemy = {
-  //   x: Math.floor(width/CELL_SIZE) - 1,
-  //   y: Math.floor(height/CELL_SIZE) - 1,
-  // };
+  resetTiles();
 
   moveEnemy(thePlayer.x, thePlayer.y, theEnemy.x, theEnemy.y);
+}
+
+function resetTiles() {
+  if (frameCount % 300 === 0) {
+    for (let y = 0; y < rows; y++){
+      for (let x = 0; x < cols; x++){
+        if (grid[y][x] === IMPASSABLE){
+          grid[y][x] = OPEN_TILE;
+        }
+      }
+    }
+  }
 }
 
 function mousePressed(){
@@ -101,70 +112,120 @@ function movePlayer(x,y){
 }
 
 function moveEnemy(x1,y1,x2,y2){
-  if (x1 > x2 && y1 > y2){
+  //moves bottom left 1
+  if (x1 > x2 && y1 > y2 && grid[y2 + 1][x2 + 1] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       x2++;
       y2++;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (x1 < x2 && y1 < y2){
+  //moves top left 1
+  else if (x1 < x2 && y1 < y2 && grid[y2 - 1][x2 - 1] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       x2--;
       y2--;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (y1 > y2 && x1 < x2){
+  else if (y1 > y2 && x1 < x2 && grid[y2 + 1][x2 - 1] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       x2--;
       y2++;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (y1 < y2 && x1 > x2){
+  else if (y1 < y2 && x1 > x2 && grid[y2 - 1][x2 + 1] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       x2++;
       y2--;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (x1 < x2){
+  else if (x1 < x2 && grid[y2][x2 - 1] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       x2--;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (x1 > x2){
+  else if (x1 > x2 && grid[y2][x2 + 1] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       x2++;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (y1 < y2){
+  else if (y1 < y2 && grid[y2 - 1][x2] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       y2--;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
   }
-  else if (y1 > y2){
+  else if (y1 > y2 && grid[y2 + 1][x2] === OPEN_TILE){
     if (frameCount % 30 === 0){
+      let oldx = theEnemy.x;
+      let oldy = theEnemy.y;
+
       y2++;
+
       grid[y2][x2] = ENEMY;
+      grid[oldy][oldx] = OPEN_TILE;
+
       theEnemy.x = x2;
       theEnemy.y = y2;
     }
