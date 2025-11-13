@@ -16,3 +16,4 @@
 ## Assignments
 - [Interactive Scene](interactive-scene)
 - [Array's and Objects](arrays-objects)
+- [2d Array project](2d-array-project)
