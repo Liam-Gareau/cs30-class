@@ -76,7 +76,7 @@ function speedUpEnemy() {
 //checks to see if the player is ontop of the goal and if so it moves the goal to a random position on the board and gives you 1 score
 function moveGoal() {
   if (thePlayer.x === theGoal.x && thePlayer.y === theGoal.y){
-    score++
+    score++;
     theGoal.x = Math.floor(random(cols));
     theGoal.y = Math.floor(random(rows));
     grid[theGoal.y][theGoal.x] = GOAL;
