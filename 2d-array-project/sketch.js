@@ -3,7 +3,7 @@
 // Nov 12 wed
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// I used my knowledge of how the grid worked in order to code an enemy that walks towards you no matter you direction you move and have that relay onto the grid
 
 //variables used throughout the code
 const CELL_SIZE = 50;
