@@ -34,7 +34,10 @@ let theGoal = {
 };
 
 function setup() {
+  //set up the size of the canvas
   createCanvas(windowWidth * 0.9, windowHeight* 0.9);
+
+  //making the grid
   cols = Math.floor(width/CELL_SIZE);
   rows = Math.floor(height/CELL_SIZE);
   grid = generateEmptyGrid(cols, rows);
@@ -54,6 +57,7 @@ function setup() {
 }
 
 function draw() {
+  //calling upon the functions
   background("blue");
   displayGrid();
   resetTiles();
