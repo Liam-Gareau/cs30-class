@@ -64,9 +64,6 @@ function draw() {
   moveGoal();
   speedUpEnemy();
   moveEnemy(thePlayer.x, thePlayer.y, theEnemy.x, theEnemy.y);
-  
-  fill("black");
-  text(score, width/2, height*0.1);
 }
 
 //checks to see if 10 seconds has passed, if so it increases the rate in which the enemy moves towards you by decreasing the frameCount
